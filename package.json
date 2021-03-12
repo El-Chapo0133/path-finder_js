@@ -1,0 +1,16 @@
+{
+  "name": "path_finder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "js",
+    "path",
+    "finder\u001b[1;5D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[-"
+  ],
+  "author": "Loris Levêque",
+  "license": "Apache-2.0"
+}

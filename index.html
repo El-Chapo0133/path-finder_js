@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Path Finder</title>
+
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            h1 {
+                margin: 0;
+                height: 40;
+            }
+            #map_content {
+                margin: 0;
+                padding: 0;
+            }
+            #map {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Path Finder</h1>
+
+        <dir id="map_content">
+            <div id="map">
+
+            </div>
+            <div id="map_buttons">
+                <button id="button_start">Start</button>
+                <button>Stop</button>
+                <button>Reset</button>
+            </div>
+        </dir>
+
+        <script src="src/utils/parent/parent.js"></script>
+        <script src="src/utils/utils.js"></script>
+        <script src="src/utils/drawer.js"></script>
+        <script src="src/map/map.js"></script>
+        <script src="src/map/generator.js"></script>
+        <script src="src/engine/engine.js"></script>
+        <script src="src/app.js"></script>
+    </body>
+</html>
