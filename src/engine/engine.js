@@ -10,7 +10,6 @@ class Engine {
         // this.vectorsWithFood(this.findFood(map));
         this.findFood(map);
         
-        this.found = false;
     }
 
     findFood(map) {
@@ -21,7 +20,11 @@ class Engine {
         let dicoNeightbors = baseNeighBors;
         let secondNeightbors = baseNeighBors;
         let newNeightbors = [];
+        let dicoPath = [{pos:heroPos,parent:null}];
+
+        // let foodFound = false;
     
+        // while (!foodFound) {
         let findFoodInterval = setInterval(() => {
 
             secondNeightbors.forEach(secondNeightbor => { 
@@ -31,23 +34,25 @@ class Engine {
                     if (!dicoIncludes(dicoNeightbors, neightbor) && map[neightbor.X()][neightbor.Y()] != WALL) {
                         newNeightbors.push(neightbor);
                         dicoNeightbors.push(neightbor);
+                        dicoPath.push({pos:neightbor,parent:findParent(dicoPath,secondNeightbor)});
 
                         if (map[neightbor.X()][neightbor.Y()] == FOOD) {
                             clearInterval(findFoodInterval);
+                            // foodFound = true;
                             console.log("Food found");
-                            
-                            return;
+                            this.drawRightPath(map, dicoPath[dicoPath.length - 1]);
                         }
                         
                         if (map[neightbor.X()][neightbor.Y()] != FOOD && map[neightbor.X()][neightbor.Y()] != HERO) {
                             drawer.drawRect(neightbor.X() * CASESIZEX, neightbor.Y() * CASESIZEY, 'red');
                         }
                     }
-                })
+                });
             });
 
             if (newNeightbors.length == 0) {
-                return -1;
+                console.log("No path found");
+                clearInterval(findFoodInterval);
             }
 
             dicoNeightbors = appendsTwoArray(secondNeightbors, newNeightbors);
@@ -56,6 +61,7 @@ class Engine {
 
 
         }, 100);
+        // }
     }
 
     recursiveFindFood(map, path) {
@@ -92,11 +98,55 @@ class Engine {
         }
         return neightbors;
     }
+
+    drawRightPath(map, path) {
+        let onlyPos = getOnlyPos(path);
+        onlyPos = removeHeadAndTail(onlyPos);
+
+        // for (let index = 0; index < onlyPos.length; index++) {
+        //     if (map[onlyPos[index].X()][onlyPos[index].Y()] != FOOD && map[onlyPos[index].X()][onlyPos[index].Y()] != HERO) {
+        //         drawer.drawRect(onlyPos[index].X() * CASESIZEX, onlyPos[index].Y() * CASESIZEY, 'green');
+        //     }
+        // }
+
+        let index = 0;
+        
+        let rightPathInterval = setInterval(() => {
+            // if (map[onlyPos[index].X()][onlyPos[index].Y()] != FOOD && map[onlyPos[index].X()][onlyPos[index].Y()] != HERO) {
+                drawer.drawRect(onlyPos[index].X() * CASESIZEX, onlyPos[index].Y() * CASESIZEY, 'green');
+            // }
+            index++;
+            if (index == onlyPos.length) {
+                clearInterval(rightPathInterval);
+                console.log("Right path draw");
+            }
+        }, 20);
+    }
 }
 
 
-
-
+function removeHeadAndTail(array) {
+    array.pop();
+    array.shift();
+    return array;
+}
+function getOnlyPos(paths) {
+    let toReturn = [];
+    let current = paths;
+    while (current != null) {
+        toReturn.push(current.pos);
+        current = current.parent;
+    }
+    toReturn = toReturn.reverse();
+    return toReturn;
+}
+function findParent(dicoPath, secondNeightbor) {
+    for (let x = dicoPath.length - 1; x >= 0; x--) {
+        if (dicoPath[x].pos.X() == secondNeightbor.X() && dicoPath[x].pos.Y() == secondNeightbor.Y()) {
+            return dicoPath[x];
+        }
+    }
+}
 function appendsTwoArray(arr1, arr2) {
     return arr1.concat(arr2);
 }

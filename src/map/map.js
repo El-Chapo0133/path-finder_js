@@ -42,4 +42,13 @@ class Map {
             throw new Error("X or Y are not in the array", x, y);
         }
     }
+    reset() {
+        for (let indexX = 0; indexX < MAPSIZEX; indexX++) {
+            for (let indexY = 0; indexY < MAPSIZEY; indexY++) {
+                this.map[indexX][indexY] = 0;
+            }
+        }
+        this.map[BASEHEROX][BASEHEROY] = HERO;
+        this.map[BASEFOODX][BASEFOODY] = FOOD;
+    }
 }
